@@ -1,0 +1,19 @@
+on:
+  issues:
+    types: [labeled]
+jobs:
+  check-issue-labeled:
+    runs-on: ubuntu-latest
+    if: contains(github.event.issue.labels.*.name, 'approved')
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+      - name: Check Issue Label
+        run: echo "Issue is approved"
+      - name: Get Issue Body
+        id: issue-body
+        run: echo "::set-output name=body::$(jq -r '.issue.body' $GITHUB_EVENT_PATH)"
+      - name: Process Body
+        env:
+          BODY: ${{ needs.extract-issue-body.outputs.body }}
+        run: echo $BODY
