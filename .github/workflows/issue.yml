@@ -18,3 +18,18 @@ jobs:
       - name: Get Issue Body
         id: issue-body
         run: echo "${{ github.event.issue.body }}"
+      
+      - name: Extract properties
+        run: |
+          NICKNAME=$(awk -F': ' '/^nickname:/ {print $2}')
+          ROLE=$(awk -F': ' '/^role:/ {print $2}')
+          PICTURE=$(awk -F': ' '/^picture:/ {print $2}')
+          echo "nickname=$NICKNAME" >> $GITHUB_ENV
+          echo "role=$ROLE" >> $GITHUB_ENV
+          echo "picture=$PICTURE" >> $GITHUB_ENV
+
+      - name: Echo
+        run: |
+          echo "${{ env.nickname }}"
+          echo "${{ env.role }}"
+          echo "${{ env.picture }}"
