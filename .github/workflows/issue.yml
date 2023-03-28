@@ -10,10 +10,13 @@ jobs:
         uses: actions/checkout@v2
       - name: Check Issue Label
         run: echo "Issue is approved"
+      - name: View the github context
+        run: echo "$GITHUB_CONTEXT"
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+
       - name: Get Issue Body
         id: issue-body
-        run: echo "::set-output name=body::$(jq -r '.issue.body' $GITHUB_EVENT_PATH)"
+        run: echo "body: ${{ github.event.issue.body }}" >> $GITHUB_STATE
       - name: Process Body
-        env:
-          BODY: ${{ needs.extract-issue-body.outputs.body }}
-        run: echo $BODY
+        run: echo $GITHUB_STATE
