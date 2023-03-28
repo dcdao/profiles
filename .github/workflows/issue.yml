@@ -17,6 +17,7 @@ jobs:
 
       - name: Get Issue Body
         id: issue-body
-        run: echo "body: ${{ github.event.issue.body }}" >> $GITHUB_STATE
+        run: echo "body=${{ github.event.issue.body }}" >> $GITHUB_STATE
+
       - name: Process Body
         run: echo $GITHUB_STATE
