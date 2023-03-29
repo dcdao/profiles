@@ -40,6 +40,7 @@ jobs:
           git --version
           git config user.name "GitHub Actions Bot"
           git config user.email ""
+          git fetch --all
           git checkout release
           git pull
           echo "${{ env.nickname }}\n" > profiles/${{ env.picture}}.md
