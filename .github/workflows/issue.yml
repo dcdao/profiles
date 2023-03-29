@@ -51,3 +51,4 @@ jobs:
           find pictures/ -name "${{ env.picture }}.png" -type f -exec mv {} selected_pictures/ \;
           git add .
           git commit -m "Update member"
+          git push
