@@ -43,9 +43,9 @@ jobs:
           git fetch --all
           git checkout release
           git pull
-          echo "${{ env.nickname }}\n" > profiles/${{ env.picture}}.md
-          echo "${{ env.role }}\n" >> profiles/${{ env.picture}}.md
-          echo "${{ env.picture }}\n" >> profiles/${{ env.picture}}.md
+          echo "${{ env.nickname }}" > profiles/${{ env.picture}}.md
+          echo "${{ env.role }}" >> profiles/${{ env.picture}}.md
+          echo "${{ env.picture }}" >> profiles/${{ env.picture}}.md
           find pictures/ -name "${{ env.picture }}.png" -type f -exec mv {} selected_pictures/ \
           git add .
           git commit -m "Update member"
