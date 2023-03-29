@@ -2,6 +2,10 @@ on:
   issues:
     types: [labeled]
 jobs:
+  permissions:
+    pull-requests: write
+    issues: write
+    repository-projects: write
   check-issue-labeled:
     runs-on: ubuntu-latest
     if: contains(github.event.issue.labels.*.name, 'approved')
