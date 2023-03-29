@@ -2,10 +2,7 @@ on:
   issues:
     types: [labeled]
 
-permissions:
-  pull-requests: write
-  issues: write
-  repository-projects: write
+permissions: write-all
 
 jobs:
  check-issue-labeled:
