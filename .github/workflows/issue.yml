@@ -1,12 +1,14 @@
 on:
   issues:
     types: [labeled]
+
+permissions:
+  pull-requests: write
+  issues: write
+  repository-projects: write
+
 jobs:
-  permissions:
-    pull-requests: write
-    issues: write
-    repository-projects: write
-  check-issue-labeled:
+ check-issue-labeled:
     runs-on: ubuntu-latest
     if: contains(github.event.issue.labels.*.name, 'approved')
     steps:
