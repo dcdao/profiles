@@ -48,6 +48,6 @@ jobs:
           echo "${{ env.role }}" >> profiles/${{ env.picture }}.md
           echo "${{ env.picture }}" >> profiles/${{ env.picture }}.md
           cat profiles/${{ env.picture }}.md
-          find pictures/ -name "${{ env.picture }}.png" -type f -exec mv {} selected_pictures/ \
+          find pictures/ -name "${{ env.picture }}.png" -type f -exec mv {} selected_pictures/ \;
           git add .
           git commit -m "Update member"
