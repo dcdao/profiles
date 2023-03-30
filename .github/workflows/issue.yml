@@ -37,7 +37,7 @@ jobs:
           echo "${{ env.role }}"
           echo "${{ env.picture }}"
 
-      - name: Add a new member
+      - name: Add a new applicant
         id: add_new_member
         run: |
           git --version
@@ -54,5 +54,5 @@ jobs:
           mkdir -p selected_pictures
           find pictures/ -name "${{ env.picture }}.png" -type f -exec mv {} selected_pictures/ \;
           git add .
-          git commit -m "Update member"
+          git commit -m "Add a new applicant"
           git push
