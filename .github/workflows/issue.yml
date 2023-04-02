@@ -22,23 +22,10 @@ jobs:
         id: issue-body
         run: echo "${{ github.event.issue.body }}"
       
-      - name: Extract properties
-        run: |
-          NICKNAME=$(echo "${{ github.event.issue.body }}" | awk -F': ' '/^nickname:/ {print $2}')
-          ROLE=$(echo "${{ github.event.issue.body }}" | awk -F': ' '/^role:/ {print $2}')
-          PICTURE=$(echo "${{ github.event.issue.body }}" | awk -F': ' '/^picture:/ {print $2}')
-          echo "nickname=$NICKNAME" >> $GITHUB_ENV
-          echo "role=$ROLE" >> $GITHUB_ENV
-          echo "picture=$PICTURE" >> $GITHUB_ENV
-
-      - name: Echo
-        run: |
-          echo "${{ env.nickname }}"
-          echo "${{ env.role }}"
-          echo "${{ env.picture }}"
-
-      - name: Add a new applicant
-        id: add_new_member
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - name: Prepare
         run: |
           git --version
           git config user.name "GitHub Actions Bot"
@@ -47,12 +34,14 @@ jobs:
           git checkout release
           git pull
           mkdir -p profiles
-          echo "${{ env.nickname }}" > profiles/${{ env.picture }}.md
-          echo "${{ env.role }}" >> profiles/${{ env.picture }}.md
-          echo "${{ env.picture }}" >> profiles/${{ env.picture }}.md
-          cat profiles/${{ env.picture }}.md
           mkdir -p selected_pictures
-          find pictures/ -name "${{ env.picture }}.png" -type f -exec mv {} selected_pictures/ \;
+
+      - name: Add new applicant
+        run: |
+          npm install
+          npm run start add-applicant "${{ github.event.issue.body }}"
+
+      - nmae: Commit
           git add .
           git commit -m "Add a new applicant"
           git push
