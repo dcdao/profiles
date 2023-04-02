@@ -1,6 +1,7 @@
-const { Command } = require('commander');
-const path = require('path');
-const fs = require('fs');
+import { Command } from 'commander';
+import { NFTStorage } from 'nft.storage';
+import { join } from 'path';
+import { readFileSync, writeFileSync, writeFile, renameSync, readdirSync, statSync } from 'fs';
 
 const program = new Command();
 
@@ -44,9 +45,9 @@ function addProfile(issueBody) {
 }
 
 function appendRecord(id, targetFile) {
-  let data = fs.readFileSync(targetFile, 'utf8');
+  let data = readFileSync(targetFile, 'utf8');
   const newData = data.length === 0 ? id : data.trim() + '\n' + id;
-  fs.writeFileSync(targetFile, newData, 'utf8');
+  writeFileSync(targetFile, newData, 'utf8');
   console.log('New applicant written to release.md');
 }
 
@@ -66,9 +67,9 @@ function updateMetadata(profile, targetDir) {
     }
   );
   console.log(meta);
-  const target = path.join(targetDir, profile['Picture'] + '.json');
+  const target = join(targetDir, profile['Picture'] + '.json');
 
-  fs.writeFile(target, JSON.stringify(meta, null, 2), (err) => {
+  writeFile(target, JSON.stringify(meta, null, 2), (err) => {
     if (err) throw err;
     console.log('Data written to file');
   });
@@ -77,8 +78,8 @@ function updateMetadata(profile, targetDir) {
 function selectPicture(file, sourceDir, targetDir) {
   const filePath = findFile(sourceDir, file);
   if (filePath) {
-    const targetPath = path.join(targetDir, file);
-    fs.renameSync(filePath, targetPath);
+    const targetPath = join(targetDir, file);
+    renameSync(filePath, targetPath);
     console.log(`Moved ${filePath} to ${targetPath}`);
   } else {
     console.log('File not found');
@@ -86,10 +87,10 @@ function selectPicture(file, sourceDir, targetDir) {
 }
 
 function findFile(dir, targetFileName) {
-  const files = fs.readdirSync(dir);
+  const files = readdirSync(dir);
   for (const file of files) {
-    const filePath = path.join(dir, file);
-    const stat = fs.statSync(filePath);
+    const filePath = join(dir, file);
+    const stat = statSync(filePath);
     if (stat.isFile() && file === targetFileName) {
       return filePath;
     }
