@@ -42,6 +42,7 @@ jobs:
           npm run start add-applicant "${{ github.event.issue.body }}"
 
       - nmae: Commit
+        run: |
           git add .
           git commit -m "Add a new applicant"
           git push
