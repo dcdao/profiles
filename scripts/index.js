@@ -45,7 +45,7 @@ function addProfile(issueBody) {
 
 function appendRecord(id, targetFile) {
   let data = fs.readFileSync(targetFile, 'utf8');
-  const newData = data.trim() + '\n' + id;
+  const newData = data.length === 0 ? id : data.trim() + '\n' + id;
   fs.writeFileSync(targetFile, newData, 'utf8');
   console.log('New applicant written to release.md');
 }
