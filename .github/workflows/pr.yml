@@ -7,12 +7,11 @@ on:
       - main
     paths:
       - 'release.md'
-  workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    if: github.event.review.state == 'approved'
+    # if: github.event.review.state == 'approved'
 
     steps:
       - name: Checkout code
