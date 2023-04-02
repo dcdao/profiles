@@ -56,20 +56,29 @@ async function uploadToIPFS() {
     console.log('NFT_STORAGE_TOKEN is not set');
     return;
   };
+
+  // Upload pictures to ipfs
   const client = new NFTStorage({ token: NFT_STORAGE_TOKEN });
   const pictureDir = await filesFromPaths(['selected_pictures'], {
     pathPrefix: path.resolve('selected_pictures'),
     hidden: true,
   })
-
   const picCid = await client.storeDirectory(pictureDir);
   console.log(picCid);
 
-  updatePictureOfMetadata(picCid, 'profiles');
+  // Find metadata files needed to be updated
+  const release = readFileSync('release.md', 'utf8');
+  const targetFiles = release.trim().split('\n').map(id => id + '.json');
+  console.log("targetFiles: ", targetFiles);
+
+  // Update ipfs address of relevant metadata 
+  updatePictureOfMetadata(picCid, 'profiles', targetFiles);
   const metadataDir = await filesFromPaths(['profiles'], {
     pathPrefix: path.resolve('profiles'),
     hidden: true,
   })
+
+  // Upload metadata to ipfs
   const metadataCid = await client.storeDirectory(metadataDir)
   console.log(metadataCid);
 }
@@ -105,36 +114,29 @@ function updateMetadata(profile, targetDir) {
   });
 }
 
-function updatePictureOfMetadata(cid, directoryPath) {
-  fs.readdir(directoryPath, (err, files) => {
-    if (err) {
-      console.log('Error reading directory:', err);
-      return;
-    }
+function updatePictureOfMetadata(cid, directoryPath, targetFiles) {
+  targetFiles.forEach((filename) => {
+    const filePath = path.join(directoryPath, filename);
 
-    files.forEach((filename) => {
-      const filePath = path.join(directoryPath, filename);
+    fs.readFile(filePath, 'utf8', (err, data) => {
+      if (err) {
+        console.log('Error reading file:', err);
+        return;
+      }
 
-      fs.readFile(filePath, 'utf8', (err, data) => {
+      const jsonData = JSON.parse(data);
+      jsonData.image = jsonData.image.replace('uuid', filename.replace('.json', '.png'));
+      jsonData.image = jsonData.image.replace('{dir_cid}', cid);
+
+      const updatedData = JSON.stringify(jsonData, null, 2);
+
+      fs.writeFile(filePath, updatedData, 'utf8', (err) => {
         if (err) {
-          console.log('Error reading file:', err);
+          console.log('Error writing file:', err);
           return;
         }
 
-        const jsonData = JSON.parse(data);
-        jsonData.image = jsonData.image.replace('uuid', filename.replace('.json', '.png'));
-        jsonData.image = jsonData.image.replace('{dir_cid}', cid);
-
-        const updatedData = JSON.stringify(jsonData, null, 2);
-
-        fs.writeFile(filePath, updatedData, 'utf8', (err) => {
-          if (err) {
-            console.log('Error writing file:', err);
-            return;
-          }
-
-          console.log(`File ${filePath} updated`);
-        });
+        console.log(`File ${filePath} updated`);
       });
     });
   });
