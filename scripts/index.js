@@ -35,10 +35,19 @@ function addProfile(issueBody) {
   const profile = extractIssue(issueBody);
   const picturesDir = 'pictures';
   const targetDir = 'selected_pictures';
+  const id = profile['Picture'];
+  const file = id + '.png'
 
-  const file = profile['Picture'] + '.png'
   selectPicture(file, picturesDir, targetDir);
   updateMetadata(profile, 'profiles');
+  appendRecord(id, 'release.md');
+}
+
+function appendRecord(id, targetFile) {
+  let data = fs.readFileSync(targetFile, 'utf8');
+  const newData = data.trim() + '\n' + id;
+  fs.writeFileSync(targetFile, newData, 'utf8');
+  console.log('New applicant written to release.md');
 }
 
 function updateMetadata(profile, targetDir) {
