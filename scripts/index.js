@@ -35,10 +35,25 @@ function addProfile(issueBody) {
   const profile = extractIssue(issueBody);
   const picturesDir = 'pictures';
   const targetDir = 'selected_pictures';
+  const id = profile['Picture'];
+  const file = id + '.png'
 
-  const file = profile['Picture'] + '.png'
   selectPicture(file, picturesDir, targetDir);
   updateMetadata(profile, 'profiles');
+  appendRecord(id, 'release.md');
+}
+
+function appendRecord(id, targetFile) {
+  fs.readFile(targetFile, 'utf8', (err, data) => {
+    if (err) throw err;
+  
+    const newData = data.trim() + '\n' + id;
+    
+    fs.writeFile(targetFile, newData, 'utf8', (err) => {
+      if (err) throw err;
+      console.log('New applicant written to file');
+    });
+  });
 }
 
 function updateMetadata(profile, targetDir) {
