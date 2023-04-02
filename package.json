@@ -9,6 +9,8 @@
   "author": "Nada Fu",
   "license": "MIT",
   "dependencies": {
-    "commander": "^10.0.0"
+    "commander": "^10.0.0",
+    "files-from-path": "^1.0.0",
+    "nft.storage": "^7.0.3"
   }
 }

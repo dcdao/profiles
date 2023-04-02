@@ -1,6 +1,9 @@
 const { Command } = require('commander');
 const path = require('path');
 const fs = require('fs');
+const { NFTStorage } = require('nft.storage');
+const { readFileSync, writeFileSync, writeFile, renameSync, readdirSync, statSync } = require('fs');
+const { filesFromPaths } = require('files-from-path');
 
 const program = new Command();
 
@@ -18,7 +21,11 @@ program.command('add-applicant')
   .argument('<string>', 'Issue body')
   .action(addProfile);
 
-program.parse()
+program.command('upload')
+  .description('Upload data to ipfs')
+  .action(uploadToIPFS);
+
+program.parse();
 
 
 function extractIssue(issueBody) {
@@ -43,10 +50,34 @@ function addProfile(issueBody) {
   appendRecord(id, 'release.md');
 }
 
+async function uploadToIPFS() {
+  const NFT_STORAGE_TOKEN = process.env.NFT_STORAGE_TOKEN;
+  if (!NFT_STORAGE_TOKEN) {
+    console.log('NFT_STORAGE_TOKEN is not set');
+    return;
+  };
+  const client = new NFTStorage({ token: NFT_STORAGE_TOKEN });
+  const pictureDir = await filesFromPaths(['selected_pictures'], {
+    pathPrefix: path.resolve('selected_pictures'),
+    hidden: true,
+  })
+
+  const picCid = await client.storeDirectory(pictureDir);
+  console.log(picCid);
+
+  updatePictureOfMetadata(picCid, 'profiles');
+  const metadataDir = await filesFromPaths(['profiles'], {
+    pathPrefix: path.resolve('profiles'),
+    hidden: true,
+  })
+  const metadataCid = await client.storeDirectory(metadataDir)
+  console.log(metadataCid);
+}
+
 function appendRecord(id, targetFile) {
-  let data = fs.readFileSync(targetFile, 'utf8');
+  let data = readFileSync(targetFile, 'utf8');
   const newData = data.length === 0 ? id : data.trim() + '\n' + id;
-  fs.writeFileSync(targetFile, newData, 'utf8');
+  writeFileSync(targetFile, newData, 'utf8');
   console.log('New applicant written to release.md');
 }
 
@@ -68,9 +99,44 @@ function updateMetadata(profile, targetDir) {
   console.log(meta);
   const target = path.join(targetDir, profile['Picture'] + '.json');
 
-  fs.writeFile(target, JSON.stringify(meta, null, 2), (err) => {
+  writeFile(target, JSON.stringify(meta, null, 2), (err) => {
     if (err) throw err;
     console.log('Data written to file');
+  });
+}
+
+function updatePictureOfMetadata(cid, directoryPath) {
+  fs.readdir(directoryPath, (err, files) => {
+    if (err) {
+      console.log('Error reading directory:', err);
+      return;
+    }
+
+    files.forEach((filename) => {
+      const filePath = path.join(directoryPath, filename);
+
+      fs.readFile(filePath, 'utf8', (err, data) => {
+        if (err) {
+          console.log('Error reading file:', err);
+          return;
+        }
+
+        const jsonData = JSON.parse(data);
+        jsonData.image = jsonData.image.replace('uuid', filename.replace('.json', '.png'));
+        jsonData.image = jsonData.image.replace('{dir_cid}', cid);
+
+        const updatedData = JSON.stringify(jsonData, null, 2);
+
+        fs.writeFile(filePath, updatedData, 'utf8', (err) => {
+          if (err) {
+            console.log('Error writing file:', err);
+            return;
+          }
+
+          console.log(`File ${filePath} updated`);
+        });
+      });
+    });
   });
 }
 
@@ -78,7 +144,7 @@ function selectPicture(file, sourceDir, targetDir) {
   const filePath = findFile(sourceDir, file);
   if (filePath) {
     const targetPath = path.join(targetDir, file);
-    fs.renameSync(filePath, targetPath);
+    renameSync(filePath, targetPath);
     console.log(`Moved ${filePath} to ${targetPath}`);
   } else {
     console.log('File not found');
@@ -86,10 +152,10 @@ function selectPicture(file, sourceDir, targetDir) {
 }
 
 function findFile(dir, targetFileName) {
-  const files = fs.readdirSync(dir);
+  const files = readdirSync(dir);
   for (const file of files) {
     const filePath = path.join(dir, file);
-    const stat = fs.statSync(filePath);
+    const stat = statSync(filePath);
     if (stat.isFile() && file === targetFileName) {
       return filePath;
     }
