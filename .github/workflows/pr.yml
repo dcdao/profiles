@@ -32,7 +32,7 @@ jobs:
           NFT_STORAGE_TOKEN: ${{ secrets.NFT_STORAGE_TOKEN }}
         run: |
           npm install
-          npm run start upload-ipfs
+          npm run start upload
 
       - name: Commit
         run: |
