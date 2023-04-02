@@ -44,16 +44,10 @@ function addProfile(issueBody) {
 }
 
 function appendRecord(id, targetFile) {
-  fs.readFile(targetFile, 'utf8', (err, data) => {
-    if (err) throw err;
-  
-    const newData = data.trim() + '\n' + id;
-    
-    fs.writeFile(targetFile, newData, 'utf8', (err) => {
-      if (err) throw err;
-      console.log('New applicant written to file');
-    });
-  });
+  let data = fs.readFileSync(targetFile, 'utf8');
+  const newData = data.trim() + '\n' + id;
+  fs.writeFileSync(targetFile, newData, 'utf8');
+  console.log('New applicant written to release.md');
 }
 
 function updateMetadata(profile, targetDir) {
