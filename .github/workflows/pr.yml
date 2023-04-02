@@ -1,4 +1,6 @@
 name: PR Merge Action
+env:
+  NFT_STORAGE_TOKEN: ${{ secrets.NFT_STORAGE_TOKEN }}
 
 on:
   pull_request_review:
@@ -26,10 +28,11 @@ jobs:
           git --version
           git config user.name "GitHub Actions Bot"
           git config user.email ""
+          git fetch --all
+          git checkout release
+          git pull
 
       - name: Upload to ipfs
-        env:
-          NFT_STORAGE_TOKEN: ${{ secrets.NFT_STORAGE_TOKEN }}
         run: |
           npm install
           npm run start upload
