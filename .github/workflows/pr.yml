@@ -4,11 +4,12 @@ env:
 
 on:
   pull_request:
-    types: [opened, reopened]
+    types: [ready_for_review]
     branches:
       - main
     paths:
       - 'release.md'
+
 
 jobs:
   build:
