@@ -13,7 +13,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    if: github.event.review.state == 'approved'
 
     steps:
       - name: Checkout code
