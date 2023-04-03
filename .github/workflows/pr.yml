@@ -3,8 +3,8 @@ env:
   NFT_STORAGE_TOKEN: ${{ secrets.NFT_STORAGE_TOKEN }}
 
 on:
-  pull_request_review:
-    types: [submitted]
+  pull_request:
+    types: [opened, reopened]
     branches:
       - main
     paths:
@@ -32,7 +32,7 @@ jobs:
       - name: Upload to ipfs
         run: |
           npm install
-          npm run start upload-ipfs
+          npm run start upload
 
       - name: Commit
         run: |

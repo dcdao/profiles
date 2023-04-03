@@ -67,7 +67,7 @@ async function uploadToIPFS() {
 
   // Find metadata files needed to be updated
   const release = readFileSync('release.md', 'utf8');
-  const targetFiles = release.trim().split('\n').map(id => id + '.json');
+  const targetFiles = release.trim().split('\n');
   console.log("targetFiles: ", targetFiles);
 
   // Update ipfs address of relevant metadata 
@@ -119,18 +119,23 @@ function updateMetadata(profile, targetDir) {
     "name": "Darwinia Community DAO Profile #0",
     "description": "",
     "image": "ipfs://{dir_cid}/uuid",
-    "external_url": "",
-    "attributes": []
+    // "external_url": "",
+    "attributes": [
+      {
+        "trait_type": "Version",
+        "value": "0"
+      },
+    ]
   };
-  ["Nickname", "Role"].forEach(
+  ["Nickname", "Role", "Saying"].forEach(
     key => {
       meta['attributes'].push(
-        { "trait_type": key, "value": profile[key] }
+        { "trait_type": key, "value": profile[key]? profile[key] : "" }
       )
     }
   );
   console.log(meta);
-  const target = path.join(targetDir, profile['Picture'] + '.json');
+  const target = path.join(targetDir, profile['Picture']);
 
   writeFile(target, JSON.stringify(meta, null, 2), (err) => {
     if (err) throw err;
@@ -154,7 +159,7 @@ function updatePictureOfMetadata(cid, directoryPath, targetFiles) {
       }
 
       const jsonData = JSON.parse(data);
-      jsonData.image = jsonData.image.replace('uuid', filename.replace('.json', '.png'));
+      jsonData.image = jsonData.image.replace('uuid', filename + '.png');
       jsonData.image = jsonData.image.replace('{dir_cid}', cid);
 
       const updatedData = JSON.stringify(jsonData, null, 2);
