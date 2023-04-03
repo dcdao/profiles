@@ -57,7 +57,7 @@ jobs:
         if: steps.add-applicant.outcome == 'failure'
         uses: peter-evans/create-or-update-comment@v2
         with:
-          issue-number: ${{ github.event.issue.id }}
+          issue-number: ${{ github.event.issue.number }}
           body: |
             The application is not conforming to the requirements. Please check:
             - The Picture field is the name of the file in the folder of pictures, without the .png suffix.
