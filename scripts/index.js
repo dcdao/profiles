@@ -5,6 +5,9 @@ const { NFTStorage } = require('nft.storage');
 const { readFileSync, writeFileSync, writeFile, renameSync, readdirSync, statSync } = require('fs');
 const { filesFromPaths } = require('files-from-path');
 
+const FILE_NOT_FOUND = "FileNotFound";
+const INVALID_ISSUE_BODY = "InvalidIssueBody";
+
 const program = new Command();
 
 program.version('0.0.1')
@@ -86,7 +89,7 @@ function extractIssue(issueBody) {
       return
     }
 
-    const [key, value] = line.split(':');
+    let [key, value] = line.split(':');
     key = key.trim()
     value = value.trim()
     if (["Nickname", "Role", "Picture"].indexOf(key) == -1) {
@@ -191,6 +194,3 @@ function findFile(dir, targetFileName) {
   }
   return null;
 }
-
-FILE_NOT_FOUND = "FileNotFound"
-INVALID_ISSUE_BODY = "InvalidIssueBody"
