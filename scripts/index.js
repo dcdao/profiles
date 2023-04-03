@@ -117,6 +117,7 @@ function appendRecord(id, targetFile) {
 function updateMetadata(profile, targetDir) {
   const meta = {
     "name": "Darwinia Community DAO Profile #0",
+    "user_id": "",
     "description": "",
     "image": "ipfs://{dir_cid}/uuid",
     // "external_url": "",
@@ -134,6 +135,7 @@ function updateMetadata(profile, targetDir) {
       )
     }
   );
+  meta['user_id'] = profile['Picture'];
   console.log(meta);
   const target = path.join(targetDir, profile['Picture']);
 
