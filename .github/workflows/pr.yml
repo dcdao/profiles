@@ -1,4 +1,4 @@
-name: PR Merge Action
+name: Upload NFT and Metadata
 env:
   NFT_STORAGE_TOKEN: ${{ secrets.NFT_STORAGE_TOKEN }}
 
