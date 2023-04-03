@@ -28,16 +28,11 @@ program.command('upload')
 program.parse();
 
 
-function extractIssue(issueBody) {
-  const profiles = {};
-  issueBody.split('\n').forEach(line => {
-    const [key, value] = line.split(':');
-    profiles[key.trim()] = value.trim();
-  })
-  console.log(profiles);
-  return profiles;
-}
-
+// Adds a profile to the repository
+// Takes the body of an issue as input and extracts the profile
+// The profile is then added to the profiles directory
+// The profile picture is added to the selected_pictures directory
+// The profile id is added to the release.md file
 function addProfile(issueBody) {
   const profile = extractIssue(issueBody);
   const picturesDir = 'pictures';
@@ -50,6 +45,7 @@ function addProfile(issueBody) {
   appendRecord(id, 'release.md');
 }
 
+// Uploads selected_pictures and profiles to IPFS and log the hash of the file.
 async function uploadToIPFS() {
   const NFT_STORAGE_TOKEN = process.env.NFT_STORAGE_TOKEN;
   if (!NFT_STORAGE_TOKEN) {
@@ -83,6 +79,31 @@ async function uploadToIPFS() {
   console.log(metadataCid);
 }
 
+function extractIssue(issueBody) {
+  const profiles = {};
+  issueBody.split('\n').forEach(line => {
+    if (line.trim().length == 0) {
+      return
+    }
+
+    const [key, value] = line.split(':');
+    key = key.trim()
+    value = value.trim()
+    if (["Nickname", "Role", "Picture"].indexOf(key) == -1) {
+      return
+    }
+
+    profiles[key] = value;
+  });
+  console.log(profiles);
+
+  if (!('Nickname' in profiles) || !('Role' in profiles) || !('Picture' in profiles)) {
+    throw INVALID_ISSUE_BODY;
+  };
+
+  return profiles;
+}
+
 function appendRecord(id, targetFile) {
   let data = readFileSync(targetFile, 'utf8');
   const newData = data.length === 0 ? id : data.trim() + '\n' + id;
@@ -114,6 +135,11 @@ function updateMetadata(profile, targetDir) {
   });
 }
 
+// This function takes a CID, directory path, and an array of target files as
+// parameters. It reads the contents of each file, parses the JSON data, replaces
+// the placeholder UUID with the actual filename (minus the .json extension), and
+// replaces the placeholder directory CID with the actual CID. Finally, it writes
+// the updated data back to the file.
 function updatePictureOfMetadata(cid, directoryPath, targetFiles) {
   targetFiles.forEach((filename) => {
     const filePath = path.join(directoryPath, filename);
@@ -121,7 +147,7 @@ function updatePictureOfMetadata(cid, directoryPath, targetFiles) {
     fs.readFile(filePath, 'utf8', (err, data) => {
       if (err) {
         console.log('Error reading file:', err);
-        return;
+        throw err;
       }
 
       const jsonData = JSON.parse(data);
@@ -133,7 +159,7 @@ function updatePictureOfMetadata(cid, directoryPath, targetFiles) {
       fs.writeFile(filePath, updatedData, 'utf8', (err) => {
         if (err) {
           console.log('Error writing file:', err);
-          return;
+          throw err;
         }
 
         console.log(`File ${filePath} updated`);
@@ -149,7 +175,8 @@ function selectPicture(file, sourceDir, targetDir) {
     renameSync(filePath, targetPath);
     console.log(`Moved ${filePath} to ${targetPath}`);
   } else {
-    console.log('File not found');
+    console.error('File not found:', file);
+    throw FILE_NOT_FOUND
   }
 }
 
@@ -164,3 +191,6 @@ function findFile(dir, targetFileName) {
   }
   return null;
 }
+
+FILE_NOT_FOUND = "FileNotFound"
+INVALID_ISSUE_BODY = "InvalidIssueBody"
