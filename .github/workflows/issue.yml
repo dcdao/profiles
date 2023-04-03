@@ -4,6 +4,7 @@ on:
     types: [labeled]
 
 permissions: write-all
+concurrency: update-applicant
 
 jobs:
  check-issue-labeled:
@@ -38,6 +39,7 @@ jobs:
           mkdir -p selected_pictures
 
       - name: Add new applicant
+        id: add-applicant
         run: |
           npm install
           npm run start add-applicant "${{ github.event.issue.body }}"
@@ -47,3 +49,27 @@ jobs:
           git add .
           git commit -m "Add a new applicant"
           git push
+
+      - name: Check if the applicant is conforming
+        id: check
+        if: steps.add-applicant.outcome == 'failure'
+        uses: peter-evans/create-or-update-comment@v2
+        with:
+          issue-number: ${{ github.event.issue.id }}
+          body: |
+            The application is not conforming to the requirements. Please check:
+            - The Picture field is the name of the file in the folder of pictures, without the .png suffix.
+            - Please check if this picture is in the folder of pictures of branch release.
+
+      - name: Remove approved label if updation fails
+        if: steps.add-applicant.outcome == 'failure'
+        uses: actions/github-script@v6
+        with:
+          script: |
+            github.issues.deleteLabel({
+              issue_number: context.payload.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              name: 'approved'
+            })
+
