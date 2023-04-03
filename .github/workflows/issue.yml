@@ -40,11 +40,13 @@ jobs:
 
       - name: Add new applicant
         id: add-applicant
+        continue-on-error: true
         run: |
           npm install
           npm run start add-applicant "${{ github.event.issue.body }}"
 
       - name: Commit
+        if: steps.add-applicant.outcome == 'success'
         run: |
           git add .
           git commit -m "Add a new applicant"
