@@ -110,7 +110,8 @@ function extractIssue(issueBody) {
 
 function appendRecord(address, id, targetFile) {
   let data = readFileSync(targetFile, 'utf8');
-  const newData = data.length === 0 ? id : data.trim() + '\n' + address + ',' + id;
+  const line = address + ',' + id;
+  const newData = data.length === 0 ? line : data.trim() + '\n' + line;
   writeFileSync(targetFile, newData, 'utf8');
   console.log('New applicant written to release.md');
 }
