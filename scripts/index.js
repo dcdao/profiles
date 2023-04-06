@@ -78,6 +78,7 @@ async function uploadToIPFS() {
     hidden: true,
   })
 
+  console.log(metadataDir);
   // Upload metadata to ipfs
   const metadataCid = await client.storeDirectory(metadataDir)
   console.log(metadataCid);
