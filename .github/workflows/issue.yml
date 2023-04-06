@@ -36,7 +36,7 @@ jobs:
           git checkout release
           git pull
           mkdir -p profiles
-          mkdir -p selected_pictures
+          mkdir -p selected_images
 
       - name: Add new applicant
         id: add-applicant
@@ -60,8 +60,8 @@ jobs:
           issue-number: ${{ github.event.issue.number }}
           body: |
             The application is not conforming to the requirements. Please check:
-            - The Picture field is the name of the file in the folder of pictures, without the .png suffix.
-            - Please check if this picture is in the folder of pictures of branch release.
+            - The Picture field is the name of the file in the folder of images, without the .png suffix.
+            - Please check if this picture is in the folder of images of branch release.
 
       - name: Remove approved label if updation fails
         if: steps.add-applicant.outcome == 'failure'
