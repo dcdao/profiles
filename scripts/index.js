@@ -41,11 +41,12 @@ function addProfile(issueBody) {
   const picturesDir = 'pictures';
   const targetDir = 'selected_pictures';
   const id = profile['Picture'];
+  const address = profile['Address'];
   const file = id + '.png'
 
   selectPicture(file, picturesDir, targetDir);
   updateMetadata(profile, 'profiles');
-  appendRecord(id, 'release.md');
+  appendRecord(address, id, 'release.md');
 }
 
 // Uploads selected_pictures and profiles to IPFS and log the hash of the file.
@@ -67,7 +68,7 @@ async function uploadToIPFS() {
 
   // Find metadata files needed to be updated
   const release = readFileSync('release.md', 'utf8');
-  const targetFiles = release.trim().split('\n');
+  const targetFiles = release.trim().split('\n').map(line => line.split(',')[1]);
   console.log("targetFiles: ", targetFiles);
 
   // Update ipfs address of relevant metadata 
@@ -92,24 +93,24 @@ function extractIssue(issueBody) {
     let [key, value] = line.split(':');
     key = key.trim()
     value = value.trim()
-    if (["Nickname", "Role", "Picture"].indexOf(key) == -1) {
+    if (["Nickname", "Role", "Picture", "Address"].indexOf(key) == -1) {
       return
     }
-
     profiles[key] = value;
   });
+
   console.log(profiles);
 
-  if (!('Nickname' in profiles) || !('Role' in profiles) || !('Picture' in profiles)) {
+  if (!('Nickname' in profiles) || !('Role' in profiles) || !('Picture' in profiles) || !('Address' in profiles)) {
     throw INVALID_ISSUE_BODY;
   };
 
   return profiles;
 }
 
-function appendRecord(id, targetFile) {
+function appendRecord(address, id, targetFile) {
   let data = readFileSync(targetFile, 'utf8');
-  const newData = data.length === 0 ? id : data.trim() + '\n' + id;
+  const newData = data.length === 0 ? id : data.trim() + '\n' + address + ',' + id;
   writeFileSync(targetFile, newData, 'utf8');
   console.log('New applicant written to release.md');
 }
