@@ -33,22 +33,22 @@ program.parse();
 // Adds a profile to the repository
 // Takes the body of an issue as input and extracts the profile
 // The profile is then added to the profiles directory
-// The profile picture is added to the selected_pictures directory
+// The profile picture is added to the selected_images directory
 // The profile id is added to the release.md file
 async function addProfile(issueBody) {
   const profile = extractIssue(issueBody);
-  const picturesDir = 'pictures';
-  const targetDir = 'selected_pictures';
+  const imagesDir = 'images';
+  const targetDir = 'selected_images';
   const id = profile['Picture'];
   const address = profile['Address'];
   const file = id + '.png'
 
-  await selectPicture(file, picturesDir, targetDir);
+  await selectPicture(file, imagesDir, targetDir);
   await updateMetadata(profile, 'profiles');
   await appendRecord(address, id, 'release.md');
 }
 
-// Uploads selected_pictures and profiles to IPFS and log the hash of the file.
+// Uploads selected_images and profiles to IPFS and log the hash of the file.
 async function uploadToIPFS() {
   const NFT_STORAGE_TOKEN = process.env.NFT_STORAGE_TOKEN;
   if (!NFT_STORAGE_TOKEN) {
@@ -56,10 +56,10 @@ async function uploadToIPFS() {
     return;
   };
 
-  // Upload pictures to ipfs
+  // Upload images to ipfs
   const client = new NFTStorage({ token: NFT_STORAGE_TOKEN });
-  const pictureDir = await filesFromPaths(['selected_pictures'], {
-    pathPrefix: path.resolve('selected_pictures'),
+  const pictureDir = await filesFromPaths(['selected_images'], {
+    pathPrefix: path.resolve('selected_images'),
     hidden: true,
   })
   const picCid = await client.storeDirectory(pictureDir);
