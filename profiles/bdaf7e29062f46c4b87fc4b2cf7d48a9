@@ -2,7 +2,7 @@
   "name": "Darwinia Community DAO Profile",
   "user_id": "bdaf7e29062f46c4b87fc4b2cf7d48a9",
   "description": "",
-  "image": "ipfs://{dir_cid}/uuid",
+  "image": "ipfs://bafybeien6kuta5wr7ckpwd6ktstwrukwtj2m3qfnnojibmbutdi546keam/bdaf7e29062f46c4b87fc4b2cf7d48a9.png",
   "attributes": [
     {
       "trait_type": "Version",
