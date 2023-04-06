@@ -1,8 +1,8 @@
-blank_issues_enabled: false
+blank_issues_enabled: true
 contact_links:
-  - name: Apply New DCDAO Profile
-    url: https://github.com/dcdao/profiles/issues/new?assignees=&labels=application&template=application-template.md&title=%5BApplication%5D+
-    about: Apply new dcdao profle
   - name: GitHub Community Support
     url: https://github.com/orgs/dcdao/discussions
     about: Please ask and answer questions here.
+  - name: Discord Server
+    url: https://discord.com/invite/aQdK9H4MZS
+    about: Join discord and chat with us.
