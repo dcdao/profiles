@@ -1,8 +1,7 @@
 const { Command } = require('commander');
 const path = require('path');
-const fs = require('fs');
+const fs = require('fs/promises');
 const { NFTStorage } = require('nft.storage');
-const { readFileSync, writeFileSync, writeFile, renameSync, readdirSync, statSync } = require('fs');
 const { filesFromPaths } = require('files-from-path');
 
 const FILE_NOT_FOUND = "FileNotFound";
@@ -36,7 +35,7 @@ program.parse();
 // The profile is then added to the profiles directory
 // The profile picture is added to the selected_pictures directory
 // The profile id is added to the release.md file
-function addProfile(issueBody) {
+async function addProfile(issueBody) {
   const profile = extractIssue(issueBody);
   const picturesDir = 'pictures';
   const targetDir = 'selected_pictures';
@@ -44,9 +43,9 @@ function addProfile(issueBody) {
   const address = profile['Address'];
   const file = id + '.png'
 
-  selectPicture(file, picturesDir, targetDir);
-  updateMetadata(profile, 'profiles');
-  appendRecord(address, id, 'release.md');
+  await selectPicture(file, picturesDir, targetDir);
+  await updateMetadata(profile, 'profiles');
+  await appendRecord(address, id, 'release.md');
 }
 
 // Uploads selected_pictures and profiles to IPFS and log the hash of the file.
@@ -67,12 +66,12 @@ async function uploadToIPFS() {
   console.log(picCid);
 
   // Find metadata files needed to be updated
-  const release = readFileSync('release.md', 'utf8');
+  const release = await fs.readFile('release.md', 'utf8');
   const targetFiles = release.trim().split('\n').map(line => line.split(',')[1]);
   console.log("targetFiles: ", targetFiles);
 
   // Update ipfs address of relevant metadata 
-  updatePictureOfMetadata(picCid, 'profiles', targetFiles);
+  await updatePictureOfMetadata(picCid, 'profiles', targetFiles);
   const metadataDir = await filesFromPaths(['profiles'], {
     pathPrefix: path.resolve('profiles'),
     hidden: true,
@@ -108,15 +107,15 @@ function extractIssue(issueBody) {
   return profiles;
 }
 
-function appendRecord(address, id, targetFile) {
-  let data = readFileSync(targetFile, 'utf8');
+async function appendRecord(address, id, targetFile) {
+  let data = await fs.readFile(targetFile, 'utf8');
   const line = address + ',' + id;
   const newData = data.length === 0 ? line : data.trim() + '\n' + line;
-  writeFileSync(targetFile, newData, 'utf8');
+  await fs.writeFile(targetFile, newData, 'utf8');
   console.log('New applicant written to release.md');
 }
 
-function updateMetadata(profile, targetDir) {
+async function updateMetadata(profile, targetDir) {
   const meta = {
     "name": "Darwinia Community DAO Profile",
     "user_id": "",
@@ -133,7 +132,7 @@ function updateMetadata(profile, targetDir) {
   ["Nickname", "Role", "Saying"].forEach(
     key => {
       meta['attributes'].push(
-        { "trait_type": key, "value": profile[key]? profile[key] : "" }
+        { "trait_type": key, "value": profile[key] ? profile[key] : "" }
       )
     }
   );
@@ -141,10 +140,8 @@ function updateMetadata(profile, targetDir) {
   console.log(meta);
   const target = path.join(targetDir, profile['Picture']);
 
-  writeFile(target, JSON.stringify(meta, null, 2), (err) => {
-    if (err) throw err;
-    console.log('Data written to file');
-  });
+  await fs.writeFile(target, JSON.stringify(meta, null, 2));
+  console.log('Data written to file');
 }
 
 // This function takes a CID, directory path, and an array of target files as
@@ -152,39 +149,24 @@ function updateMetadata(profile, targetDir) {
 // the placeholder UUID with the actual filename (minus the .json extension), and
 // replaces the placeholder directory CID with the actual CID. Finally, it writes
 // the updated data back to the file.
-function updatePictureOfMetadata(cid, directoryPath, targetFiles) {
-  targetFiles.forEach((filename) => {
+async function updatePictureOfMetadata(cid, directoryPath, targetFiles) {
+  for (const filename of targetFiles) {
     const filePath = path.join(directoryPath, filename);
-
-    fs.readFile(filePath, 'utf8', (err, data) => {
-      if (err) {
-        console.log('Error reading file:', err);
-        throw err;
-      }
-
-      const jsonData = JSON.parse(data);
-      jsonData.image = jsonData.image.replace('uuid', filename + '.png');
-      jsonData.image = jsonData.image.replace('{dir_cid}', cid);
-
-      const updatedData = JSON.stringify(jsonData, null, 2);
-
-      fs.writeFile(filePath, updatedData, 'utf8', (err) => {
-        if (err) {
-          console.log('Error writing file:', err);
-          throw err;
-        }
-
-        console.log(`File ${filePath} updated`);
-      });
-    });
-  });
+    data = await fs.readFile(filePath, 'utf8');
+    const jsonData = JSON.parse(data);
+    jsonData.image = jsonData.image.replace('uuid', filename + '.png');
+    jsonData.image = jsonData.image.replace('{dir_cid}', cid);
+    const updatedData = JSON.stringify(jsonData, null, 2);
+    await fs.writeFile(filePath, updatedData, 'utf8');
+    console.log(`File ${filePath} updated`);
+  };
 }
 
-function selectPicture(file, sourceDir, targetDir) {
-  const filePath = findFile(sourceDir, file);
+async function selectPicture(file, sourceDir, targetDir) {
+  const filePath = await findFile(sourceDir, file);
   if (filePath) {
     const targetPath = path.join(targetDir, file);
-    renameSync(filePath, targetPath);
+    await fs.rename(filePath, targetPath);
     console.log(`Moved ${filePath} to ${targetPath}`);
   } else {
     console.error('File not found:', file);
@@ -192,11 +174,11 @@ function selectPicture(file, sourceDir, targetDir) {
   }
 }
 
-function findFile(dir, targetFileName) {
-  const files = readdirSync(dir);
+async function findFile(dir, targetFileName) {
+  const files = await fs.readdir(dir);
   for (const file of files) {
     const filePath = path.join(dir, file);
-    const stat = statSync(filePath);
+    const stat = await fs.stat(filePath);
     if (stat.isFile() && file === targetFileName) {
       return filePath;
     }
