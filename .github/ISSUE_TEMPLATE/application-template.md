@@ -1,6 +1,6 @@
 ---
 name: Application template
-about: This is a application template for Darwinia Community DAO
+about: This is a application template for Darwinia Community DAO Profile
 title: "[Application] "
 labels: application
 assignees: ''
