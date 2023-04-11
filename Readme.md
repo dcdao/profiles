@@ -1,5 +1,5 @@
 # Darwinia Community Dao Profiles
-This repository serves as a storage for the members' information and NFT images of Darwinia Community Dao. In addition, it provides a streamlined process for contributors to apply and automatically receive their NFTs.
+This repository serves as a storage for application info of Darwinia Community DAO Profiles NFTs. In addition, it provides a streamlined process for contributors to apply and automatically receive their NFTs.
 
 ## How to Apply
 To apply for an NFT, follow the steps below:
