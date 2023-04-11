@@ -1,0 +1,52 @@
+name: Application template
+description: This is a application template for Darwinia Community DAO Profile
+title: "[Application] "
+labels: ["application"]
+body: 
+  - type: input
+    id: nickname
+    attributes:
+      label: Nickname
+      description: Please enter your nickname
+    validations:
+      required: true
+
+  - type: input
+    id: picture
+    attributes:
+      label: Picture
+      description: Please select a image in images directory and input the filename(without the suffix .png) 2b4113b565534342bda37d6f961d6b84.
+    validations:
+      required: true
+  
+  - type: input
+    id: role
+    attributes:
+      label: Role
+      description: Please enter your role during the period contributing to the Darwinia
+    validations:
+      required: true
+
+  - type: input
+    id: address
+    attributes:
+      label: Address
+      description: Please enter the address to receive the NFT.
+    validations:
+      required: true
+
+  - type: textarea
+    id: contribution
+    attributes:
+      label: Contribution
+      description: Please list your contribution to Darwinia Network, to support your application.
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: google-form
+    attributes:
+      label: Google Forms(Optional)
+      description: Have private data, and don't wnat to expose it to the public? You could submit via form (https://docs.google.com/forms/d/1KMq0zKK_07h2bs0XfR3ym5pQhiWkWwYlwBX-FjwSGuY/edit).
+      options:
+        - label: I've filled the form.
