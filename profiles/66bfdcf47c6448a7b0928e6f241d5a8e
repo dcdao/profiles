@@ -1,0 +1,24 @@
+{
+  "name": "Darwinia Community DAO Profile",
+  "user_id": "66bfdcf47c6448a7b0928e6f241d5a8e",
+  "description": "",
+  "image": "ipfs://{dir_cid}/uuid",
+  "attributes": [
+    {
+      "trait_type": "Version",
+      "value": "0"
+    },
+    {
+      "trait_type": "Nickname",
+      "value": "ran"
+    },
+    {
+      "trait_type": "Role",
+      "value": "community contributor"
+    },
+    {
+      "trait_type": "Saying",
+      "value": ""
+    }
+  ]
+}
