@@ -84,22 +84,16 @@ async function uploadToIPFS() {
 
 function extractIssue(issueBody) {
   const profiles = {};
-  issueBody.split('\n').forEach(line => {
-    if (line.trim().length == 0) {
-      return
+  const regex = /###\s+(\w+)\s+(.+)\s+/gm;
+  let match;
+  while ((match = regex.exec(issueBody)) !== null) {
+    const [, label, value] = match;
+    if (["Nickname", "Role", "Picture", "Address"].indexOf(label) == -1) {
+      continue;
     }
-
-    let [key, value] = line.split(':');
-    key = key.trim()
-    value = value.trim()
-    if (["Nickname", "Role", "Picture", "Address"].indexOf(key) == -1) {
-      return
-    }
-    profiles[key] = value;
-  });
-
+    profiles[label] = value.trim();
+  }
   console.log(profiles);
-
   if (!('Nickname' in profiles) || !('Role' in profiles) || !('Picture' in profiles) || !('Address' in profiles)) {
     throw INVALID_ISSUE_BODY;
   };
