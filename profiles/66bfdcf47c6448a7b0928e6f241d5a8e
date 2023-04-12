@@ -1,0 +1,20 @@
+{
+  "name": "Darwinia Community DAO Profile",
+  "user_id": "66bfdcf47c6448a7b0928e6f241d5a8e",
+  "description": "IAMTHEBEST",
+  "image": "ipfs://bafybeibagbbmbxcle3pckvsrhsfygdx4osojws6cysf2lyuxpwj37pmehe/66bfdcf47c6448a7b0928e6f241d5a8e.png",
+  "attributes": [
+    {
+      "trait_type": "Version",
+      "value": "0"
+    },
+    {
+      "trait_type": "Nickname",
+      "value": "Ran"
+    },
+    {
+      "trait_type": "Role",
+      "value": "Other-Contributor"
+    }
+  ]
+}
