@@ -63,7 +63,7 @@ async function uploadToIPFS() {
     hidden: true,
   })
   const picCid = await client.storeDirectory(pictureDir);
-  console.log(picCid);
+  console.log(`imageBaseURI: ipfs://${picCid}/`);
 
   // Find metadata files needed to be updated
   const release = await fs.readFile('release.md', 'utf8');
@@ -79,24 +79,35 @@ async function uploadToIPFS() {
 
   // Upload metadata to ipfs
   const metadataCid = await client.storeDirectory(metadataDir)
-  console.log(metadataCid);
+  console.log(`metadataBaseURI: ipfs://${metadataCid}/`);
+
+  // Write metadataBaseURI and imageBaseURI to release_ipfs.md
+  const releaseIpfs = `imageBaseURI: ipfs://${picCid}/\nmetadataBaseURI: ipfs://${metadataCid}/`;
+  await fs.writeFile('release_ipfs.md', releaseIpfs, 'utf8');
 }
 
 function extractIssue(issueBody) {
-  const profiles = {};
+  const profiles = {
+    Saying: ""
+  };
   const regex = /###\s+(\w+)\s+(.+)\s+/gm;
+  const allowedFields = ['Nickname', 'Role', 'Picture', 'Address', "Saying"];
+  const requiredFields = ['Nickname', 'Role', 'Picture', 'Address'];
   let match;
   while ((match = regex.exec(issueBody)) !== null) {
-    const [, label, value] = match;
-    if (["Nickname", "Role", "Picture", "Address"].indexOf(label) == -1) {
+    let [, label, value] = match;
+    if (allowedFields.indexOf(label) == -1) {
       continue;
+    }
+    if (label === "Role") {
+      value = value.replaceAll(",", "");
     }
     profiles[label] = value.trim();
   }
   console.log(profiles);
-  if (!('Nickname' in profiles) || !('Role' in profiles) || !('Picture' in profiles) || !('Address' in profiles)) {
+  if (!requiredFields.every(field => field in profiles)) {
     throw INVALID_ISSUE_BODY;
-  };
+  }
 
   return profiles;
 }
@@ -123,7 +134,7 @@ async function updateMetadata(profile, targetDir) {
       },
     ]
   };
-  ["Nickname", "Role", "Saying"].forEach(
+  ["Nickname", "Role"].forEach(
     key => {
       meta['attributes'].push(
         { "trait_type": key, "value": profile[key] ? profile[key] : "" }
@@ -131,6 +142,8 @@ async function updateMetadata(profile, targetDir) {
     }
   );
   meta['user_id'] = profile['Picture'];
+  meta['description'] = profile['Saying']
+
   console.log(meta);
   const target = path.join(targetDir, profile['Picture']);
 

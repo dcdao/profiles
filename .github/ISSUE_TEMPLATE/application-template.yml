@@ -19,11 +19,22 @@ body:
     validations:
       required: true
   
-  - type: input
+  - type: dropdown
     id: role
     attributes:
       label: Role
-      description: Please enter your role during the period contributing to the Darwinia
+      description: Please select your role during the period contributing to the Darwinia
+      multiple: true
+      options:
+        - Developer
+        - Ambassador
+        - Writer
+        - Designer
+        - Researcher
+        - Manager
+        - Moderator
+        - Evangelist
+        - Other-Contributor
     validations:
       required: true
 
@@ -34,6 +45,12 @@ body:
       description: Please enter the address to receive the NFT.
     validations:
       required: true
+
+  - type: input
+    id: saying
+    attributes:
+      label: Saying
+      description: Is there anything you want to say? You have the option to include a slogan or other additional information in the description of your NFT.
 
   - type: textarea
     id: contribution
