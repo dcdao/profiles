@@ -113,7 +113,7 @@ async function generateImagesReadme() {
         nbImages++;
         mdContent += `
   <td valign="bottom">
-  <img src="./${image}" width="200"><br>
+  <img src="./${image}" width="100"><br>
   ${image}
   </td>
   `;
