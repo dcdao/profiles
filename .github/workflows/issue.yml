@@ -38,12 +38,13 @@ jobs:
           mkdir -p profiles
           mkdir -p selected_images
 
-      - name: Add new applicant
+      - name: Add new applicant and update README.md of images
         id: add-applicant
         continue-on-error: true
         run: |
           npm install
           npm run start add-applicant "${{ github.event.issue.body }}"
+          npm run start generate-images-readme
 
       - name: Commit
         if: steps.add-applicant.outcome == 'success'

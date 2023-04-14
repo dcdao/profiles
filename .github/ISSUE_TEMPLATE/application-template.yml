@@ -15,7 +15,7 @@ body:
     id: picture
     attributes:
       label: Picture
-      description: Please select a image in [images directory](https://github.com/dcdao/profiles/tree/release/images) and input the filename(without the suffix .png) 2b4113b565534342bda37d6f961d6b84.
+      description: Please select a image in [images directory](https://github.com/dcdao/profiles/tree/release/images/README.md) and input the filename(without the suffix .png) 2b4113b565534342bda37d6f961d6b84.
     validations:
       required: true
   
