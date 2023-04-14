@@ -114,7 +114,7 @@ async function generateImagesReadme() {
         mdContent += `
   <td valign="bottom" style="width: 200px;">
   <div style="word-wrap: break-word;">
-  <img src="./${image}" width="200">
+  <img src="./${image}" width="200"><br>
   ${image.replace(".png", "")}
   </div>
   </td>
