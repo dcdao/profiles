@@ -112,9 +112,11 @@ async function generateImagesReadme() {
         }
         nbImages++;
         mdContent += `
-  <td valign="bottom">
-  <img src="./${image}" width="100"><br>
-  ${image}
+  <td valign="bottom" style="width: 200px;">
+  <div style="word-wrap: break-word;">
+  <img src="./${image}" width="200">
+  ${image.replace(".png", "")}
+  </div>
   </td>
   `;
       }
