@@ -27,6 +27,10 @@ program.command('upload')
   .description('Upload data to ipfs')
   .action(uploadToIPFS);
 
+program.command('images-readme')
+  .description('Generate READEME.md for images')
+  .action(generateImagesReadme);
+
 program.parse();
 
 
@@ -84,6 +88,44 @@ async function uploadToIPFS() {
   // Write metadataBaseURI and imageBaseURI to release_ipfs.md
   const releaseIpfs = `imageBaseURI: ipfs://${picCid}/\nmetadataBaseURI: ipfs://${metadataCid}/`;
   await fs.writeFile('release_ipfs.md', releaseIpfs, 'utf8');
+}
+
+async function generateImagesReadme() {
+  const ROOT_DIR = 'images/';
+  const README_FILENAME = 'README.md';
+  const NB_IMAGES_PER_LINE = 5;
+  let nbImages = 0;
+  let mdContent = '<table><tr>';
+
+  try {
+    const files = await fs.readdir(ROOT_DIR);
+
+    for (const image of files) {
+      if (image !== README_FILENAME) {
+        if (!(nbImages % NB_IMAGES_PER_LINE)) {
+          if (nbImages > 0) {
+            mdContent += `
+  </tr>`;
+          }
+          mdContent += `
+  <tr>`;
+        }
+        nbImages++;
+        mdContent += `
+  <td valign="bottom">
+  <img src="./${image}" width="200"><br>
+  ${image}
+  </td>
+  `;
+      }
+    }
+    mdContent += `
+  </tr></table>`;
+
+    await fs.writeFile(path.join(ROOT_DIR, README_FILENAME), mdContent);
+  } catch (error) {
+    console.error(`Error while generating images README: ${error}`);
+  }
 }
 
 function extractIssue(issueBody) {
