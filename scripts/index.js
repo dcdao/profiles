@@ -27,7 +27,7 @@ program.command('upload')
   .description('Upload data to ipfs')
   .action(uploadToIPFS);
 
-program.command('images-readme')
+program.command('generate-images-readme')
   .description('Generate READEME.md for images')
   .action(generateImagesReadme);
 
@@ -93,7 +93,7 @@ async function uploadToIPFS() {
 async function generateImagesReadme() {
   const ROOT_DIR = 'images/';
   const README_FILENAME = 'README.md';
-  const NB_IMAGES_PER_LINE = 5;
+  const NB_IMAGES_PER_LINE = 3;
   let nbImages = 0;
   let mdContent = '<table><tr>';
 
@@ -112,11 +112,9 @@ async function generateImagesReadme() {
         }
         nbImages++;
         mdContent += `
-  <td valign="bottom" style="width: 200px;">
-  <div style="word-wrap: break-word;">
-  <img src="./${image}" width="200"><br>
+  <td valign="bottom" style="width: 300px;">
+  <img src="./${image}" width="300"><br>
   ${image.replace(".png", "")}
-  </div>
   </td>
   `;
       }
