@@ -1,0 +1,20 @@
+{
+  "name": "Darwinia Community DAO Profile",
+  "user_id": "df488947560a409f921dfbb74602ab26",
+  "description": "Unity of knowledge and action",
+  "image": "ipfs://bafybeic3fqmvrsbgor6msxh3hqmza5chmwufuqyzstww7ndx4xpvhrysci/df488947560a409f921dfbb74602ab26.png",
+  "attributes": [
+    {
+      "trait_type": "Version",
+      "value": "0"
+    },
+    {
+      "trait_type": "Nickname",
+      "value": "fisher"
+    },
+    {
+      "trait_type": "Role",
+      "value": "Developer Researcher Evangelist"
+    }
+  ]
+}

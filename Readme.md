@@ -19,3 +19,6 @@ To apply for an NFT, follow the steps below:
 
 ## Contact Us
 If you have any questions or concerns, feel free to contact us through the repository's issues section. We'll be happy to assist you!
+
+## Release History
+- Release #1: [Transaction hash](https://etherscan.io/tx/0x1ab3068b92ed2f043f1c048e7b3e1b53335d23cda6131e4994c88eb0087e261d)

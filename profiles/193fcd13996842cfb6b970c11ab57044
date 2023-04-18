@@ -1,0 +1,20 @@
+{
+  "name": "Darwinia Community DAO Profile",
+  "user_id": "193fcd13996842cfb6b970c11ab57044",
+  "description": "_No response_",
+  "image": "ipfs://bafybeic3fqmvrsbgor6msxh3hqmza5chmwufuqyzstww7ndx4xpvhrysci/193fcd13996842cfb6b970c11ab57044.png",
+  "attributes": [
+    {
+      "trait_type": "Version",
+      "value": "0"
+    },
+    {
+      "trait_type": "Nickname",
+      "value": "Cindy"
+    },
+    {
+      "trait_type": "Role",
+      "value": "Moderator"
+    }
+  ]
+}

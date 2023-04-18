@@ -50,7 +50,9 @@ body:
     id: saying
     attributes:
       label: Saying
-      description: Is there anything you want to say? You have the option to include a slogan or other additional information in the description of your NFT.
+      description: Is there anything you want to say? You could include a slogan or other additional information in the description of your NFT.
+    validations:
+      required: true
 
   - type: textarea
     id: contribution

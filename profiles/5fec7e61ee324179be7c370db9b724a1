@@ -1,0 +1,20 @@
+{
+  "name": "Darwinia Community DAO Profile",
+  "user_id": "5fec7e61ee324179be7c370db9b724a1",
+  "description": "He who tells the truth is never wrong.",
+  "image": "ipfs://bafybeidhshwc6jxicxt3srb4eplm7pmzm3ullvqhjovn7pqdntyca2dy5q/5fec7e61ee324179be7c370db9b724a1.png",
+  "attributes": [
+    {
+      "trait_type": "Version",
+      "value": "0"
+    },
+    {
+      "trait_type": "Nickname",
+      "value": "echo"
+    },
+    {
+      "trait_type": "Role",
+      "value": "Developer Researcher"
+    }
+  ]
+}
