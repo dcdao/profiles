@@ -2,7 +2,7 @@
   "name": "Darwinia Community DAO Profile",
   "user_id": "1f67931be4e24562a9cd028ad42217d9",
   "description": "Don't sweat the small stuff, and it is all small stuff.",
-  "image": "ipfs://{dir_cid}/uuid",
+  "image": "ipfs://bafybeiftkn4roy2j3b2qipq3i4oavyvnjubvnavxmnkt3mmj6fnw5bvngq/1f67931be4e24562a9cd028ad42217d9.png",
   "attributes": [
     {
       "trait_type": "Version",
