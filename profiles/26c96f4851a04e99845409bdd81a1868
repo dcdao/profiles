@@ -1,0 +1,20 @@
+{
+  "name": "Darwinia Community DAO Profile",
+  "user_id": "26c96f4851a04e99845409bdd81a1868",
+  "description": ".",
+  "image": "ipfs://bafybeiftkn4roy2j3b2qipq3i4oavyvnjubvnavxmnkt3mmj6fnw5bvngq/26c96f4851a04e99845409bdd81a1868.png",
+  "attributes": [
+    {
+      "trait_type": "Version",
+      "value": "0"
+    },
+    {
+      "trait_type": "Nickname",
+      "value": "Laki"
+    },
+    {
+      "trait_type": "Role",
+      "value": "Ambassador Moderator Other-Contributor"
+    }
+  ]
+}

@@ -22,3 +22,4 @@ If you have any questions or concerns, feel free to contact us through the repos
 
 ## Release History
 - Release #1: [Transaction hash](https://etherscan.io/tx/0x1ab3068b92ed2f043f1c048e7b3e1b53335d23cda6131e4994c88eb0087e261d)
+- Release #2: [Transaction hash](https://etherscan.io/tx/0xb0fffdbe03dad37e96edab116332653e343887832b6126d0e33c1f451969c47d)
