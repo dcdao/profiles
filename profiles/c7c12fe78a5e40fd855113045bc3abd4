@@ -1,0 +1,20 @@
+{
+  "name": "Darwinia Community DAO Profile",
+  "user_id": "c7c12fe78a5e40fd855113045bc3abd4",
+  "description": "Stop existing, start living!",
+  "image": "ipfs://bafybeiftkn4roy2j3b2qipq3i4oavyvnjubvnavxmnkt3mmj6fnw5bvngq/c7c12fe78a5e40fd855113045bc3abd4.png",
+  "attributes": [
+    {
+      "trait_type": "Version",
+      "value": "0"
+    },
+    {
+      "trait_type": "Nickname",
+      "value": "SasoLithops"
+    },
+    {
+      "trait_type": "Role",
+      "value": "Ambassador Other-Contributor"
+    }
+  ]
+}
