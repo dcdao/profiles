@@ -1,0 +1,20 @@
+{
+  "name": "Darwinia Community DAO Profile",
+  "user_id": "8592a5b4f92443c7ad202c7f87c0978d",
+  "description": "Looking forward to smiling everyday; bother not.",
+  "image": "ipfs://{dir_cid}/uuid",
+  "attributes": [
+    {
+      "trait_type": "Version",
+      "value": "0"
+    },
+    {
+      "trait_type": "Nickname",
+      "value": "Partnership Dude"
+    },
+    {
+      "trait_type": "Role",
+      "value": "Ambassador Researcher Moderator Other-Contributor"
+    }
+  ]
+}
