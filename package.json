@@ -4,7 +4,8 @@
   "description": "",
   "main": "scripts/index.js",
   "scripts": {
-    "start": "node scripts/index.js"
+    "start": "node scripts/index.js",
+    "mint": "node scripts/mint.js"
   },
   "author": "Nada Fu",
   "license": "MIT",
