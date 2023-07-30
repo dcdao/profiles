@@ -114,7 +114,7 @@ const start = async function () {
     await safeService.proposeTransaction(proposeTransactionProps);
 }
 
-checkEnv();
+// checkEnv();
 // loadMetadata();
 // loadApplicants();
-// start();
+start();
