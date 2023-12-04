@@ -1,0 +1,20 @@
+{
+  "name": "Darwinia Community DAO Profile",
+  "user_id": "49a10a78bff049a1be45431f6cf011de",
+  "description": "Explore your creative mind.",
+  "image": "ipfs://{dir_cid}/uuid",
+  "attributes": [
+    {
+      "trait_type": "Version",
+      "value": "0"
+    },
+    {
+      "trait_type": "Nickname",
+      "value": "JuneCribb"
+    },
+    {
+      "trait_type": "Role",
+      "value": "Writer"
+    }
+  ]
+}
