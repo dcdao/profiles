@@ -2,7 +2,7 @@
   "name": "Darwinia Community DAO Profile",
   "user_id": "206738c2e50e499d995dd8f4fd8eb6f8",
   "description": "DCDAO, the future of DAO",
-  "image": "ipfs://{dir_cid}/uuid",
+  "image": "ipfs://bafybeieyv6qvlaudopi2se6qqme6a4bt2bqspvckiz77ryewfmpetwrhl4/206738c2e50e499d995dd8f4fd8eb6f8.png",
   "attributes": [
     {
       "trait_type": "Version",
