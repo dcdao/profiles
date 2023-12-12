@@ -1,2 +1,0 @@
-imageBaseURI: ipfs://bafybeib2ic7m5d4pgz3l4432kv7e53uv7sdnw5vz5fgumm4rfyidhrwn3m/
-metadataBaseURI: ipfs://bafybeieuho25qtapprrwykcbh6uyif3k3u6c3lbigvygs55fguzrddpeti/
