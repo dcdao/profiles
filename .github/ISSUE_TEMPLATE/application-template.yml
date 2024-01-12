@@ -2,7 +2,7 @@ name: Application template
 description: This is a application template for Darwinia Community DAO Profile
 title: "[Application] "
 labels: ["application"]
-assignees: "Cindy884"
+assignees: "casinoyoda"
 body: 
   - type: input
     id: nickname
