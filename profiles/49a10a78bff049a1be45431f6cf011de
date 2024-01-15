@@ -1,0 +1,20 @@
+{
+  "name": "Darwinia Community DAO Profile",
+  "user_id": "49a10a78bff049a1be45431f6cf011de",
+  "description": "Explore your creative mind.",
+  "image": "ipfs://bafybeieyv6qvlaudopi2se6qqme6a4bt2bqspvckiz77ryewfmpetwrhl4/49a10a78bff049a1be45431f6cf011de.png",
+  "attributes": [
+    {
+      "trait_type": "Version",
+      "value": "0"
+    },
+    {
+      "trait_type": "Nickname",
+      "value": "JuneCribb"
+    },
+    {
+      "trait_type": "Role",
+      "value": "Writer"
+    }
+  ]
+}

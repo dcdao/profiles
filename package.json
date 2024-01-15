@@ -4,12 +4,18 @@
   "description": "",
   "main": "scripts/index.js",
   "scripts": {
-    "start": "node scripts/index.js"
+    "start": "node scripts/index.js",
+    "mint": "node scripts/mint.js"
   },
   "author": "Nada Fu",
   "license": "MIT",
   "dependencies": {
+    "@safe-global/api-kit": "^1.3.0",
+    "@safe-global/protocol-kit": "^1.2.0",
+    "@safe-global/safe-core-sdk-types": "^2.2.0",
     "commander": "^10.0.0",
+    "dotenv": "^16.3.1",
+    "ethers": "^5.7.2",
     "files-from-path": "^1.0.0",
     "nft.storage": "^7.0.3"
   }
