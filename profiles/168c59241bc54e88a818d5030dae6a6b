@@ -2,7 +2,7 @@
   "name": "Darwinia Community DAO Profile",
   "user_id": "168c59241bc54e88a818d5030dae6a6b",
   "description": "Fate favors the bold.",
-  "image": "ipfs://{dir_cid}/uuid",
+  "image": "ipfs://bafybeihlwc3kwfokoh4ktbtf6gk4tdhkrxerinu2zhyg3xezwml3wdgfvq/168c59241bc54e88a818d5030dae6a6b.png",
   "attributes": [
     {
       "trait_type": "Version",
