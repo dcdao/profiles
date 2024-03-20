@@ -1,0 +1,20 @@
+{
+  "name": "Darwinia Community DAO Profile",
+  "user_id": "168c59241bc54e88a818d5030dae6a6b",
+  "description": "Fate favors the bold.",
+  "image": "ipfs://bafybeihlwc3kwfokoh4ktbtf6gk4tdhkrxerinu2zhyg3xezwml3wdgfvq/168c59241bc54e88a818d5030dae6a6b.png",
+  "attributes": [
+    {
+      "trait_type": "Version",
+      "value": "0"
+    },
+    {
+      "trait_type": "Nickname",
+      "value": "furqan"
+    },
+    {
+      "trait_type": "Role",
+      "value": "Manager Other-Contributor"
+    }
+  ]
+}
