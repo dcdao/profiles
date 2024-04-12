@@ -1,0 +1,20 @@
+{
+  "name": "Darwinia Community DAO Profile",
+  "user_id": "4860b680330e4b37848c5423f91bc2e1",
+  "description": "My samosas are waiting for your chutney!",
+  "image": "ipfs://{dir_cid}/uuid",
+  "attributes": [
+    {
+      "trait_type": "Version",
+      "value": "0"
+    },
+    {
+      "trait_type": "Nickname",
+      "value": "Johnny Samosa"
+    },
+    {
+      "trait_type": "Role",
+      "value": "Ambassador"
+    }
+  ]
+}
