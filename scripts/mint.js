@@ -96,7 +96,7 @@ const start = async function () {
     // Create safe transaction
     const safeAddress = process.env.SAFE_WALLET_ADDRESS;
     const safeSdk = await Safe.create({ ethAdapter, safeAddress, contractNetworks });
-    const safeTransaction = await safeSdk.createTransaction({ safeTransactionData, options: { gasPrice: 154000000000 }});
+    const safeTransaction = await safeSdk.createTransaction({ safeTransactionData, options: { gasPrice: 154000000000, safeTxGas: 613599 }});
     const safeTxHash = await safeSdk.getTransactionHash(safeTransaction)
     const senderSignature = await safeSdk.signTransactionHash(safeTxHash)
     const proposeTransactionProps = {
