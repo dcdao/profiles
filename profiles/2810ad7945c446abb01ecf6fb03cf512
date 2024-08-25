@@ -2,7 +2,7 @@
   "name": "Darwinia Community DAO Profile",
   "user_id": "2810ad7945c446abb01ecf6fb03cf512",
   "description": "Never stop moving forward - One step at a time",
-  "image": "ipfs://{dir_cid}/uuid",
+  "image": "ipfs://bafybeie6ayi5hcqtohfzpcd3rwp4uipl2zhl3ftxe3635mbwqhvyldoluy/2810ad7945c446abb01ecf6fb03cf512.png",
   "attributes": [
     {
       "trait_type": "Version",
