@@ -1,6 +1,7 @@
 name: Upload NFT and Metadata
 env:
   NFT_STORAGE_TOKEN: ${{ secrets.NFT_STORAGE_TOKEN }}
+  PINATA_TOKEN: ${{ secrets.PINATA_TOKEN }}
 
 on:
   pull_request:
