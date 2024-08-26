@@ -1,8 +1,7 @@
 const { Command } = require('commander');
 const path = require('path');
 const fs = require('fs/promises');
-const { NFTStorage } = require('nft.storage');
-const { filesFromPaths } = require('files-from-path');
+const { PinataSDK } = require("pinata");
 
 const FILE_NOT_FOUND = "FileNotFound";
 const INVALID_ISSUE_BODY = "InvalidIssueBody";
@@ -54,38 +53,48 @@ async function addProfile(issueBody) {
 
 // Uploads selected_images and profiles to IPFS and log the hash of the file.
 async function uploadToIPFS() {
-  const NFT_STORAGE_TOKEN = process.env.NFT_STORAGE_TOKEN;
-  if (!NFT_STORAGE_TOKEN) {
-    console.log('NFT_STORAGE_TOKEN is not set');
+  const PINATA_TOKEN = process.env.PINATA_TOKEN;
+  if (!PINATA_TOKEN) {
+    console.log('PINATA_TOKEN is not set');
     return;
   };
 
   // Upload images to ipfs
-  const client = new NFTStorage({ token: NFT_STORAGE_TOKEN });
-  const pictureDir = await filesFromPaths(['selected_images'], {
-    pathPrefix: path.resolve('selected_images'),
-    hidden: true,
-  })
-  const picCid = await client.storeDirectory(pictureDir);
-  console.log(`imageBaseURI: ipfs://${picCid}/`);
+  const files = [];
+  const entries = await fs.readdir('selected_images');
+  for (const entry of entries) {
+    const blob = new Blob([await fs.readFile("selected_images/"+entry)]);
+    const file = new File([blob], entry, { type: "image/png" });
+    files.push(file);
+  }
+
+  const pClient = new PinataSDK({pinataJwt: PINATA_TOKEN, pinataGateway: "magenta-tiny-starfish-641.mypinata.cloud"})
+  const picResp = await pClient.upload.fileArray(files);
+  console.log(`imageBaseURI: ipfs://${picResp.IpfsHash}/`);
 
   // Find metadata files needed to be updated
   const release = await fs.readFile('release.md', 'utf8');
   const targetFiles = release.trim().split('\n').map(line => line.split(',')[1]);
-  console.log("targetFiles: ", targetFiles);
+  console.log("To update: ", targetFiles);
 
   // Update ipfs address of relevant metadata 
-  await updatePictureOfMetadata(picCid, 'profiles', targetFiles);
-  const metadataDir = await filesFromPaths(['profiles'], {
-    pathPrefix: path.resolve('profiles'),
-    hidden: true,
-  })
+  await updatePictureOfMetadata(picResp.IpfsHash, 'profiles', targetFiles);
+
+  const metadataFiles = []
+  const metaEntries = await fs.readdir('profiles');
+  for (const entry of metaEntries) {
+    const blob = new Blob([await fs.readFile("profiles/"+entry)]);
+    const file = new File([blob], entry, { type: "text/plain" });
+    metadataFiles.push(file);
+  }
 
   // Upload metadata to ipfs
-  const metadataCid = await client.storeDirectory(metadataDir)
-  console.log(`metadataBaseURI: ipfs://${metadataCid}/`);
+  const metadataResp = await pClient.upload.fileArray(metadataFiles)
+  console.log(`metadataBaseURI: ipfs://${metadataResp.IpfsHash}/`);
 
   // Write metadataBaseURI and imageBaseURI to release_ipfs.md
+  const picCid = picResp.IpfsHash;
+  const metadataCid = metadataResp.IpfsHash;
   const releaseIpfs = `imageBaseURI: ipfs://${picCid}/\nmetadataBaseURI: ipfs://${metadataCid}/`;
   await fs.writeFile('release_ipfs.md', releaseIpfs, 'utf8');
 }
@@ -207,7 +216,7 @@ async function updatePictureOfMetadata(cid, directoryPath, targetFiles) {
     jsonData.image = jsonData.image.replace('{dir_cid}', cid);
     const updatedData = JSON.stringify(jsonData, null, 2);
     await fs.writeFile(filePath, updatedData, 'utf8');
-    console.log(`File ${filePath} updated`);
+    console.log(`${filePath} updated`);
   };
 }
 
